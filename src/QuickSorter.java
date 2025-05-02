@@ -9,15 +9,14 @@ public class QuickSorter
         RANDOM_ELEMENT, // Randomly choosing the pivot element
         MEDIAN_OF_TWO_ELEMENTS, // Choosing the median of 3 randomly chosen elements as the pivot
         MEDIAN_OF_THREE_ELEMENTS // Median of first, center and last element (book method?)
-    } // Use for enum: PivotStrategy myVar = PivotStrategy.FIRST_ELEMENT;
-
+    }
 
     public static <E extends Comparable<E>> Duration timedQuickSort(ArrayList<E> list, PivotStrategy pivotStrategy) throws NullPointerException
     {
         // We need to check if either List or PivotStrategy is null, and exit out immediately.
-        if (list.isEmpty())
+        if (list == null)
         {
-            throw new NullPointerException("List is empty!");
+            throw new NullPointerException("List is null!");
         }
         if (pivotStrategy == null)
         {
@@ -26,10 +25,13 @@ public class QuickSorter
 
         // Start recording the time of the QuickSort algorithm.
         Instant start = Instant.now();
-        // … call your quickSort implementation here …
+
+        // Start quicksort
+        quickSort(list, 0, list.size() - 1, pivotStrategy);
 
         // End of QuickSort. Record the ending timestamp.
         Instant end = Instant.now();
+
         return Duration.between(start, end);
     }
 
@@ -49,5 +51,107 @@ public class QuickSorter
             randomList.add(rand.nextInt());
         }
         return randomList;
+    }
+
+    private static <E extends Comparable<E>> void quickSort(List<E> list, int left, int right, PivotStrategy strategy)
+    {
+        if (left >= right)
+        {
+            return;
+        }
+
+        int pivotIndex = choosePivotIndex(list, left, right, strategy);
+        swap(list, pivotIndex, right);
+
+        int store = partition(list, left, right);
+        swap(list, store, right);
+
+        quickSort(list, left, store - 1, strategy);
+        quickSort(list, store + 1, right, strategy);
+    }
+
+    private static <E extends Comparable<E>> int partition(List<E> list, int left, int right) 
+    {
+        E pivotValue = list.get(right);
+        int storeIndex = left;
+        for (int i = left; i < right; i++) 
+        {
+            if (list.get(i).compareTo(pivotValue) <= 0) 
+            {
+                swap(list, i, storeIndex++);
+            }
+        }
+        return storeIndex;
+    }
+
+    private static <E> void swap(List<E> list, int i, int j) 
+    {
+        E tmp = list.get(i);
+        list.set(i, list.get(j));
+        list.set(j, tmp);
+    }
+
+    private static <E extends Comparable<E>> int choosePivotIndex(List<E> list, int left, int right, PivotStrategy strategy) 
+    {
+        Random random = new Random();
+        switch (strategy)
+        {
+            case FIRST_ELEMENT:
+                return left;
+
+            case RANDOM_ELEMENT:
+                return left + random.nextInt(right - left + 1);
+
+            case MEDIAN_OF_TWO_ELEMENTS:
+                // pick two random indices, return the one whose value is the "middle" of the two
+                int a = left + random.nextInt(right - left + 1);
+                int b = left + random.nextInt(right - left + 1);
+                // if list[a] <= list[b], an is the lower median; else b
+                return (list.get(a).compareTo(list.get(b)) <= 0) ? a : b;
+
+            case MEDIAN_OF_THREE_ELEMENTS:
+                // median of first, middle, last
+                int mid = left + (right - left) / 2;
+                return medianIndex(list, left, mid, right);
+
+            default:
+                throw new AssertionError("Unknown PivotStrategy: " + strategy);
+        }
+    }
+
+    private static <E extends Comparable<E>> int medianIndex(List<E> list, int i, int j, int k)
+    {
+        E x = list.get(i), y = list.get(j), z = list.get(k);
+        // return index of the median of (x,y,z)
+        if (x.compareTo(y) <= 0)
+        {
+            if (y.compareTo(z) <= 0)
+            {
+                return j;
+            }
+            else if (x.compareTo(z) <= 0)
+            {
+                return k;
+            }
+            else
+            {
+                return i;
+            }
+        }
+        else
+        {
+            if (x.compareTo(z) <= 0)
+            {
+                return i;
+            }
+            else if (y.compareTo(z) <= 0)
+            {
+                return k;
+            }
+            else
+            {
+                return j;
+            }
+        }
     }
 }
