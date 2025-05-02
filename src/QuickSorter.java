@@ -46,8 +46,7 @@ public class QuickSorter
 
         for (int j = 0; j < arraySize; j++)
         {
-            int randomRange = rand.nextInt(100);
-            randomList.add(randomRange);
+            randomList.add(rand.nextInt());
         }
         return randomList;
     }
