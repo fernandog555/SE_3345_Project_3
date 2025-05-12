@@ -23,8 +23,11 @@ public class Main
         String unsortedFileName = args[2];
         String sortedFileName = args[3];
 
-        QuickSorter quickSorter = new QuickSorter();
-        ArrayList<Integer> randomList = quickSorter.generateRandomList(userArraySize);
+        // Make the random list, and return it as sorted.
+        ArrayList<Integer> randomList = QuickSorter.generateRandomList(userArraySize);
+
+        // Generate the random list, but sort 10% and return it.
+        //ArrayList<Integer> almostSorted = QuickSorter.generateAlmostSortedList(userArraySize);
 
         // Assuming we got the files opened and read.
         System.out.println("Arguments were successfully provided. Please wait until items are sorted...");
@@ -73,7 +76,7 @@ public class Main
             }
         }
 
-        // Write sorted list to file (from median-of-three strategy)
+        // Write sorted list to file
         if (sortedList != null)
         {
             try
@@ -89,7 +92,6 @@ public class Main
         }
 
         // Write timing report
-// --- Rewrite report in two halves ---
         try (BufferedWriter reportWriter = new BufferedWriter(new FileWriter(reportFileName)))
         {
             // Header
@@ -97,7 +99,7 @@ public class Main
             reportWriter.newLine();
             reportWriter.newLine();
 
-            // --- First half: ISO-8601 durations ---
+            // first half
             for (Map.Entry<QuickSorter.PivotStrategy, Duration> e : timings.entrySet())
             {
                 String name = e.getKey().name();
@@ -107,7 +109,7 @@ public class Main
 
             reportWriter.newLine();
 
-            // --- Second half: millisecond timings ---
+            // Second half: millisecond timings
             for (Map.Entry<QuickSorter.PivotStrategy, Duration> e : timings.entrySet())
             {
                 String name   = e.getKey().name();
@@ -120,7 +122,7 @@ public class Main
             System.err.println("Error writing report: " + e.getMessage());
         }
 
-        // after writing the report file, compute total elapsed
+        // after writing the report file, calc total elapsed
         long totalMs = Duration.between(programStart, Instant.now()).toMillis();
         System.out.println("Done in " + totalMs + " ms. Report in '" + reportFileName + "'.");
     }

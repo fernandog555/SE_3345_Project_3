@@ -7,7 +7,7 @@ public class QuickSorter
     {
         FIRST_ELEMENT, // First element as pivot
         RANDOM_ELEMENT, // Randomly choosing the pivot element
-        MEDIAN_OF_TWO_ELEMENTS, // Choosing the median of 3 randomly chosen elements as the pivot
+        MEDIAN_OF_THREE_RANDOM_ELEMENTS, // Choosing the median of 3 randomly chosen elements as the pivot
         MEDIAN_OF_THREE_ELEMENTS // Median of first, center and last element (book method?)
     }
 
@@ -51,6 +51,27 @@ public class QuickSorter
             randomList.add(rand.nextInt());
         }
         return randomList;
+    }
+
+    public static ArrayList<Integer> generateAlmostSortedList(int size)
+    {
+        if (size < 0)
+        {
+            throw new IllegalArgumentException("Size must be non-negative");
+        }
+
+        ArrayList<Integer> list = new ArrayList<>(generateRandomList(size));
+        Collections.sort(list);
+        Random rand = new Random();
+
+        int swaps = (int) (size * 0.1);
+        for (int i = 0; i < swaps; i++)
+        {
+            int a = rand.nextInt(size);
+            int b = rand.nextInt(size);
+            swap(list, a, b);
+        }
+        return list;
     }
 
     private static <E extends Comparable<E>> void quickSort(List<E> list, int left, int right, PivotStrategy strategy)
@@ -102,12 +123,11 @@ public class QuickSorter
             case RANDOM_ELEMENT:
                 return left + random.nextInt(right - left + 1);
 
-            case MEDIAN_OF_TWO_ELEMENTS:
-                // pick two random indices, return the one whose value is the "middle" of the two
-                int a = left + random.nextInt(right - left + 1);
-                int b = left + random.nextInt(right - left + 1);
-                // if list[a] <= list[b], an is the lower median; else b
-                return (list.get(a).compareTo(list.get(b)) <= 0) ? a : b;
+            case MEDIAN_OF_THREE_RANDOM_ELEMENTS:
+                int i1 = left + random.nextInt(right - left + 1);
+                int i2 = left + random.nextInt(right - left + 1);
+                int i3 = left + random.nextInt(right - left + 1);
+                return medianIndex(list, i1, i2, i3);
 
             case MEDIAN_OF_THREE_ELEMENTS:
                 // median of first, middle, last
