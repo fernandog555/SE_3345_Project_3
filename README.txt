@@ -1,4 +1,4 @@
-Hello, welcome back! I am Fernando Flores (FXF220008). This is my submission for project 2.
+Hello, welcome back! I am Fernando Flores (FXF220008). This is my submission for project 3.
 
 I developed my program using IntelliJ, and used the Java JDK 23 to compile and run this program.
 There shouldn't be any issues using any other JDK versions, as it runs just fine on OnlineGDB.
