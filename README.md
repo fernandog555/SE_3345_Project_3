@@ -43,7 +43,7 @@ These are for the fully random lists using Collections.Sort:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    These are for the almost sorted lists using QuickSort:
+These are for the almost sorted lists using QuickSort:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -56,7 +56,7 @@ These are for the fully random lists using Collections.Sort:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    These are for the almost sorted lists using Collections.Sort:
+These are for the almost sorted lists using Collections.Sort:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -69,11 +69,13 @@ These are for the fully random lists using Collections.Sort:
 Here is the summary for all the data listed above:
 
 ------ FULLY RANDOM DATA ------
+
     - Collections.Sort was consistently the fastest sort because it uses dual pivot Quicksort.
     - The MEDIAN_OF_THREE_ELEMENTS strategy of my quicksort was slightly slower than library sort.
     - The FIRST_ELEMENT strategy was the slowest of them all.
 
 ------ ALMOST SORTED DATA ------
+
     - Collections.Sort still was the fastest sort out of all strategies on my quicksort.
     - The FIRST_ELEMENT strategy was terrible as it had O(n^2) time.
     - The other strategies suffered a bit more too due to the nature of the almost sorted list.
